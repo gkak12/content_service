@@ -1,12 +1,8 @@
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
-buildscript {
-    extra.apply {
-        set("queryDslVersion", "5.0.0")
-        set("springBootVersion", "3.3.2")
-        set("starterVersion", "3.3.2")
-    }
-}
+val queryDslVersion by extra("5.0.0")
+val springBootVersion by extra("3.3.2")
+val starterVersion by extra("3.3.2")
 
 plugins {
     java
@@ -50,8 +46,14 @@ subprojects {
     }
 
     configurations {
-        create("compileOnly") {
-            extendsFrom(configurations.getByName("annotationProcessor"))
+        compileOnly {
+            extendsFrom(configurations.annotationProcessor.get())
+        }
+    }
+
+    if (name == "service_content" || name == "service_user") {
+        dependencies {
+            compileOnly(project(":module_common"))
         }
     }
 
@@ -122,21 +124,7 @@ subprojects {
     }
 }
 
-// === Module Dependencies ===
-
-listOf(
-    "service_content",
-    "service_user"
-).forEach { service ->
-    project(":$service") {
-        dependencies {
-            compileOnly(project(":module_common"))
-        }
-    }
-}
-
 // === Global Tasks ===
-
 tasks.named<Test>("test") {
     useJUnitPlatform()
 }
