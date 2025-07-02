@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 buildscript {
@@ -149,7 +148,9 @@ tasks.withType<BootJar> {
 
 // 실행 관련 태스크
 tasks.register<Exec>("runBoot") {
-    commandLine("gradlew.bat", "run")
+    val windowsFlag = System.getProperty("os.name").lowercase().contains("win")
+    val gradlewCmd = if (windowsFlag) "gradlew.bat" else "./gradlew"
+    commandLine(gradlewCmd, "run")
 }
 
 tasks.register("run") {
