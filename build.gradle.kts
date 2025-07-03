@@ -1,9 +1,3 @@
-buildscript {
-    extra["queryDslVersion"] = "5.0.0"
-    extra["springBootVersion"] = "3.3.2"
-    extra["starterVersion"] = "3.3.2"
-}
-
 plugins {
     java
     id("org.jetbrains.kotlin.jvm") version "1.9.23"
@@ -13,6 +7,12 @@ plugins {
     id("io.spring.dependency-management") version "1.1.6"
     id("com.ewerk.gradle.plugins.querydsl") version "1.0.10"
 }
+
+val queryDslVersion = "5.0.0"
+val springBootVersion = "3.3.2"
+val starterVersion = "3.3.2"
+val jwtTokenVersion = "0.11.5"
+val mapStructVersion = "1.6.0"
 
 allprojects {
     repositories {
@@ -45,8 +45,6 @@ subprojects {
     }
 
     dependencies {
-        val starterVersion: String by rootProject.extra
-
         // Spring Starter
         implementation("org.springframework.boot:spring-boot-starter-data-jdbc:$starterVersion")
         implementation("org.springframework.boot:spring-boot-starter-data-jpa:$starterVersion")
@@ -58,9 +56,9 @@ subprojects {
 
         // Security
         implementation("org.springframework.boot:spring-boot-starter-security:$starterVersion")
-        implementation("io.jsonwebtoken:jjwt-api:0.11.5")
-        implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
-        implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
+        implementation("io.jsonwebtoken:jjwt-api:$jwtTokenVersion")
+        implementation("io.jsonwebtoken:jjwt-impl:$jwtTokenVersion")
+        implementation("io.jsonwebtoken:jjwt-jackson:$jwtTokenVersion")
 
         // DB
         implementation("mysql:mysql-connector-java:8.0.33")
@@ -88,13 +86,12 @@ subprojects {
         implementation("commons-codec:commons-codec:1.17.0")
 
         // MapStruct
-        implementation("org.mapstruct:mapstruct:1.6.0")
-        annotationProcessor("org.mapstruct:mapstruct-processor:1.6.0")
+        implementation("org.mapstruct:mapstruct:$mapStructVersion")
+        annotationProcessor("org.mapstruct:mapstruct-processor:$mapStructVersion")
 
         // QueryDSL
-        val queryDslVersion: String by rootProject.extra
-        implementation("com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta")
-        annotationProcessor("com.querydsl:querydsl-apt:${queryDslVersion}:jakarta")
+        implementation("com.querydsl:querydsl-jpa:$queryDslVersion:jakarta")
+        annotationProcessor("com.querydsl:querydsl-apt:$queryDslVersion:jakarta")
         annotationProcessor("jakarta.annotation:jakarta.annotation-api")
         annotationProcessor("jakarta.persistence:jakarta.persistence-api")
 
@@ -134,13 +131,6 @@ tasks.register("run") {
     }
 }
 
-fun configureBootRunArgs(projectPath: String, profile: String = "local") {
-    val bootRun = project(projectPath).tasks.findByName("bootRun")
-    bootRun?.let {
-        (it as? JavaExec)?.args = listOf("--spring.profiles.active=$profile")
-    }
-}
-
 tasks.register("runAll") {
     val profile = if (project.hasProperty("profile")) project.property("profile") as String else "local"
     dependsOn(":service_content:bootRun")
@@ -153,4 +143,11 @@ tasks.register("runAll") {
 tasks.register("contentRun") {
     configureBootRunArgs(":service_content")
     finalizedBy(":service_content:bootRun")
+}
+
+fun configureBootRunArgs(projectPath: String, profile: String = "local") {
+    val bootRun = project(projectPath).tasks.findByName("bootRun")
+    bootRun?.let {
+        (it as? JavaExec)?.args = listOf("--spring.profiles.active=$profile")
+    }
 }
