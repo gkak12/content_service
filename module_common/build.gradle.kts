@@ -1,16 +1,16 @@
 plugins {
-    id("java-library")
-    id("org.springframework.boot") version "3.3.2"
+    kotlin("jvm")
+    kotlin("kapt")
 }
 
 dependencies {
     implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
+    implementation(kotlin("stdlib"))
 }
 
 tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
     enabled = false
 }
-
-tasks.named<org.springframework.boot.gradle.tasks.run.BootRun>("bootRun") {
+tasks.named("bootRun") {
     enabled = false
 }

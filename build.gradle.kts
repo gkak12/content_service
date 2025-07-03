@@ -1,32 +1,24 @@
-import org.springframework.boot.gradle.tasks.bundling.BootJar
-
-val queryDslVersion by extra("5.0.0")
-val springBootVersion by extra("3.3.2")
-val starterVersion by extra("3.3.2")
+buildscript {
+    extra["queryDslVersion"] = "5.0.0"
+    extra["springBootVersion"] = "3.3.2"
+    extra["starterVersion"] = "3.3.2"
+}
 
 plugins {
     java
-    groovy
-    idea
-    kotlin("jvm") version "1.9.23"
-    kotlin("plugin.spring") version "1.9.23"
-    kotlin("plugin.jpa") version "1.9.23"
-    kotlin("kapt") version "1.9.23"
+    id("org.jetbrains.kotlin.jvm") version "1.9.23"
+    id("org.jetbrains.kotlin.kapt") version "1.9.23"
+    id("org.jetbrains.kotlin.plugin.spring") version "1.9.23"
     id("org.springframework.boot") version "3.3.2"
     id("io.spring.dependency-management") version "1.1.6"
+    id("com.ewerk.gradle.plugins.querydsl") version "1.0.10"
 }
 
 allprojects {
-    group = "com.content"
-    version = "1.0.0"
-
     repositories {
         mavenCentral()
     }
 }
-
-val activeProfile = System.getProperty("spring.profiles.active") ?: "test"
-println("------------ profile: $activeProfile ------------")
 
 subprojects {
     apply(plugin = "java")
@@ -34,6 +26,9 @@ subprojects {
     apply(plugin = "idea")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
+
+    group = "com.service"
+    version = "1.0.0"
 
     java {
         toolchain {
@@ -45,40 +40,30 @@ subprojects {
         options.encoding = "UTF-8"
     }
 
-    configurations {
-        compileOnly {
-            extendsFrom(configurations.annotationProcessor.get())
-        }
-    }
-
-    if (name == "service_content" || name == "service_user") {
-        dependencies {
-            compileOnly(project(":module_common"))
-        }
+    configurations.compileOnly {
+        extendsFrom(configurations.annotationProcessor.get())
     }
 
     dependencies {
         val starterVersion: String by rootProject.extra
 
-        // Spring Starters
-        implementation("org.springframework.boot:spring-boot-starter-web:$starterVersion")
-        implementation("org.springframework.boot:spring-boot-starter-validation:$starterVersion")
-        implementation("org.springframework.boot:spring-boot-starter-security:$starterVersion")
-        implementation("org.springframework.boot:spring-boot-starter-data-jpa:$starterVersion")
+        // Spring Starter
         implementation("org.springframework.boot:spring-boot-starter-data-jdbc:$starterVersion")
+        implementation("org.springframework.boot:spring-boot-starter-data-jpa:$starterVersion")
         implementation("org.springframework.boot:spring-boot-starter-jdbc:$starterVersion")
+        implementation("org.springframework.boot:spring-boot-starter-web:$starterVersion")
 
-        // JWT
+        // Validation
+        implementation("org.springframework.boot:spring-boot-starter-validation:$starterVersion")
+
+        // Security
+        implementation("org.springframework.boot:spring-boot-starter-security:$starterVersion")
         implementation("io.jsonwebtoken:jjwt-api:0.11.5")
         implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
         implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
         // DB
-        if (activeProfile == "test") {
-            runtimeOnly("org.xerial:sqlite-jdbc:3.42.0.0")
-        } else {
-            runtimeOnly("org.postgresql:postgresql:42.5.0")
-        }
+        implementation("mysql:mysql-connector-java:8.0.33")
 
         // Lombok
         compileOnly("org.projectlombok:lombok")
@@ -91,12 +76,12 @@ subprojects {
         testImplementation("org.springframework.boot:spring-boot-starter-test")
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-        // Jackson / JSON
+        // JSON
         implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
         implementation("com.fasterxml.jackson.core:jackson-databind")
         implementation("com.hubspot.jackson:jackson-datatype-protobuf:0.9.15")
 
-        // Native Query / Parser
+        // Native Query
         implementation("com.github.jsqlparser:jsqlparser:4.9")
 
         // Base64
@@ -106,39 +91,41 @@ subprojects {
         implementation("org.mapstruct:mapstruct:1.6.0")
         annotationProcessor("org.mapstruct:mapstruct-processor:1.6.0")
 
-        // Querydsl
+        // QueryDSL
         val queryDslVersion: String by rootProject.extra
-        implementation("com.querydsl:querydsl-jpa:$queryDslVersion:jakarta")
-        annotationProcessor("com.querydsl:querydsl-apt:$queryDslVersion:jakarta")
+        implementation("com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta")
+        annotationProcessor("com.querydsl:querydsl-apt:${queryDslVersion}:jakarta")
         annotationProcessor("jakarta.annotation:jakarta.annotation-api")
         annotationProcessor("jakarta.persistence:jakarta.persistence-api")
 
-        // Apache Commons
+        // commons
         implementation("org.apache.commons:commons-lang3:3.16.0")
 
         // UUID
         implementation("com.fasterxml.uuid:java-uuid-generator:5.1.0")
 
-        // P6Spy
+        // p6spy
         implementation("p6spy:p6spy:3.9.1")
+    }
+
+    tasks.test {
+        useJUnitPlatform()
     }
 }
 
-// === Global Tasks ===
-tasks.named<Test>("test") {
-    useJUnitPlatform()
+project(":service_content") {
+    dependencies {
+        compileOnly(project(":module_common"))
+    }
 }
 
-// Spring Boot 재패키징을 전역에서 막음
-tasks.withType<BootJar> {
+// build tasks
+tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
     enabled = false
 }
 
-// 실행 관련 태스크
 tasks.register<Exec>("runBoot") {
-    val windowsFlag = System.getProperty("os.name").lowercase().contains("win")
-    val gradlewCmd = if (windowsFlag) "gradlew.bat" else "./gradlew"
-    commandLine(gradlewCmd, "run")
+    commandLine("gradlew.bat", "run")
 }
 
 tasks.register("run") {
@@ -147,30 +134,23 @@ tasks.register("run") {
     }
 }
 
+fun configureBootRunArgs(projectPath: String, profile: String = "local") {
+    val bootRun = project(projectPath).tasks.findByName("bootRun")
+    bootRun?.let {
+        (it as? JavaExec)?.args = listOf("--spring.profiles.active=$profile")
+    }
+}
+
 tasks.register("runAll") {
-    val profile = if (project.hasProperty("profile")) project.property("profile") as String else "test"
-    dependsOn(
-        ":service_content:bootRun",
-        ":service_user:bootRun"
-    )
+    val profile = if (project.hasProperty("profile")) project.property("profile") as String else "local"
+    dependsOn(":service_content:bootRun")
     doFirst {
         configureBootRunArgs(":service_content", profile)
-        configureBootRunArgs(":service_user", profile)
     }
     enabled = false
 }
 
-fun configureBootRunArgs(projectPath: String, profile: String = "local") {
-    project(projectPath).tasks.findByName("bootRun")?.let { bootRun ->
-        bootRun as JavaExec
-        bootRun.args = listOf("--spring.profiles.active=$profile")
-    }
-}
-
-// 개별 서비스 run task
-listOf("content", "user").forEach { name ->
-    tasks.register("${name}Run") {
-        configureBootRunArgs(":service_${name}")
-        finalizedBy(":service_${name}:bootRun")
-    }
+tasks.register("contentRun") {
+    configureBootRunArgs(":service_content")
+    finalizedBy(":service_content:bootRun")
 }
