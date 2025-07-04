@@ -78,10 +78,14 @@ protobuf {
 
 sourceSets {
     main {
+        proto {
+            srcDir("src/main/proto")
+        }
         java {
             setSrcDirs(
                 listOf(
                     "src/main/kotlin",
+                    "build/generated/source/proto/main/java",
                     "build/generated/source/proto/main/grpc",
                     "build/generated/source/proto/main/grpckt",
                     "build/generated/querydsl",
@@ -96,6 +100,10 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
     kotlinOptions {
         jvmTarget = "21"
     }
+}
+
+tasks.named<Copy>("processResources") {
+    exclude("**/*.proto")
 }
 
 tasks.test {
