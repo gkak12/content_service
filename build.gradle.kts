@@ -116,6 +116,12 @@ project(":service_content") {
     }
 }
 
+project(":service_user") {
+    dependencies {
+        compileOnly(project(":module_common"))
+    }
+}
+
 // build tasks
 tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
     enabled = false
