@@ -21,6 +21,9 @@ tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
 
 dependencies {
     implementation(project(":module_common"))
+    implementation(project(":module_grpc"))
+
+    implementation("net.devh:grpc-server-spring-boot-starter:3.1.0.RELEASE")
 
     implementation("p6spy:p6spy:3.9.1")
     implementation("com.github.gavlyukovskiy:datasource-decorator-spring-boot-autoconfigure:1.9.0")

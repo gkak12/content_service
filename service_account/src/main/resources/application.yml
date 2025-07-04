@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    active: ${springProfilesActive:test}  # default test ??
+  jpa:
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+    hibernate:
+      ddl-auto: none # update
+  datasource:
+    url: jdbc:sqlite:mydb.db
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ENC(0quG6FVbayjtAMT/26YQxA==)
+    password: ENC(cOh6l6GKbZQdo8p9EE98/A==)
+  sql:
+    init:
+      mode: never
+
+jasypt:
+  encryptor:
+    bean: jasyptEncryptor
+
+server:
+  shutdown: graceful

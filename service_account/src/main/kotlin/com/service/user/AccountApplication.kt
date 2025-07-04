@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class UserApplication
+class AccountApplication
 
 fun main(args: Array<String>) {
-    val log = LoggerFactory.getLogger(UserApplication::class.java)
+    val log = LoggerFactory.getLogger(AccountApplication::class.java)
     log.info("Starting MainApplication...")
-    runApplication<UserApplication>(*args)
+    runApplication<AccountApplication>(*args)
 }
