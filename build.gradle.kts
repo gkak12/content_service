@@ -116,7 +116,7 @@ project(":service_content") {
     }
 }
 
-project(":service_user") {
+project(":service_account") {
     dependencies {
         compileOnly(project(":module_common"))
     }
