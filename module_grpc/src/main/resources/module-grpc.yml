@@ -1,0 +1,5 @@
+grpc:
+  server:
+    port: 50051
+    enable: true
+    enableReflection: true
