@@ -2,7 +2,6 @@ import com.google.protobuf.gradle.*
 
 plugins {
     kotlin("jvm")
-    kotlin("kapt")
 
     id("com.google.protobuf") version "0.9.4"
 }

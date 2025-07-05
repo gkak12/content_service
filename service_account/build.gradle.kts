@@ -8,15 +8,15 @@ plugins {
 }
 
 application {
-    mainClass.set("com.service.user.UserApplicationKt")
+    mainClass.set("com.service.account.AccountApplicationKt")
 }
 
 springBoot {
-    mainClass.set("com.service.user.UserApplicationKt")
+    mainClass.set("com.service.account.AccountApplicationKt")
 }
 
 tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
-    mainClass.set("com.service.user.UserApplicationKt")
+    mainClass.set("com.service.account.AccountApplicationKt")
 }
 
 dependencies {
@@ -29,6 +29,10 @@ dependencies {
     implementation("com.github.gavlyukovskiy:datasource-decorator-spring-boot-autoconfigure:1.9.0")
 
     implementation(kotlin("stdlib"))
+}
+
+kotlin {
+    sourceSets["main"].kotlin.srcDir("build/generated/source/kapt/main")
 }
 
 tasks.named("bootRun") {

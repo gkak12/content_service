@@ -1,8 +1,8 @@
 plugins {
     java
-    id("org.jetbrains.kotlin.jvm") version "1.9.23"
-    id("org.jetbrains.kotlin.kapt") version "1.9.23"
-    id("org.jetbrains.kotlin.plugin.spring") version "1.9.23"
+    kotlin("jvm") version "1.9.23"
+    kotlin("kapt") version "1.9.23"
+    kotlin("plugin.spring") version "1.9.23"
     id("org.springframework.boot") version "3.3.2"
     id("io.spring.dependency-management") version "1.1.6"
     id("com.ewerk.gradle.plugins.querydsl") version "1.0.10"
@@ -26,6 +26,9 @@ subprojects {
     apply(plugin = "idea")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "org.jetbrains.kotlin.kapt")
+    apply(plugin = "org.jetbrains.kotlin.plugin.spring")
 
     group = "com.service"
     version = "1.0.0"
@@ -34,6 +37,8 @@ subprojects {
         toolchain {
             languageVersion.set(JavaLanguageVersion.of(21))
         }
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     tasks.withType<JavaCompile> {
@@ -45,22 +50,20 @@ subprojects {
     }
 
     dependencies {
-        // Spring Starter
+        // Spring Boot Starters
         implementation("org.springframework.boot:spring-boot-starter-data-jdbc:$starterVersion")
         implementation("org.springframework.boot:spring-boot-starter-data-jpa:$starterVersion")
         implementation("org.springframework.boot:spring-boot-starter-jdbc:$starterVersion")
         implementation("org.springframework.boot:spring-boot-starter-web:$starterVersion")
-
-        // Validation
         implementation("org.springframework.boot:spring-boot-starter-validation:$starterVersion")
-
-        // Security
         implementation("org.springframework.boot:spring-boot-starter-security:$starterVersion")
+
+        // JWT
         implementation("io.jsonwebtoken:jjwt-api:$jwtTokenVersion")
         implementation("io.jsonwebtoken:jjwt-impl:$jwtTokenVersion")
         implementation("io.jsonwebtoken:jjwt-jackson:$jwtTokenVersion")
 
-        // DB
+        // Database
         implementation("mysql:mysql-connector-java:8.0.33")
 
         // Lombok
@@ -70,7 +73,7 @@ subprojects {
         // Jasypt
         implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
 
-        // Test
+        // Testing
         testImplementation("org.springframework.boot:spring-boot-starter-test")
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
@@ -91,14 +94,14 @@ subprojects {
 
         // QueryDSL
         implementation("com.querydsl:querydsl-jpa:$queryDslVersion:jakarta")
-        annotationProcessor("com.querydsl:querydsl-apt:$queryDslVersion:jakarta")
-        annotationProcessor("jakarta.annotation:jakarta.annotation-api")
-        annotationProcessor("jakarta.persistence:jakarta.persistence-api")
+        kapt("com.querydsl:querydsl-apt:$queryDslVersion:jakarta")
+        kapt("jakarta.annotation:jakarta.annotation-api")
+        kapt("jakarta.persistence:jakarta.persistence-api")
 
-        // commons
+        // Commons Lang3
         implementation("org.apache.commons:commons-lang3:3.16.0")
 
-        // UUID
+        // UUID Generator
         implementation("com.fasterxml.uuid:java-uuid-generator:5.1.0")
 
         // p6spy
@@ -110,6 +113,7 @@ subprojects {
     }
 }
 
+// 서브 프로젝트
 project(":service_content") {
     dependencies {
         compileOnly(project(":module_common"))
@@ -122,11 +126,12 @@ project(":service_account") {
     }
 }
 
-// build tasks
+// 루트에서 bootJar 비활성화
 tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
     enabled = false
 }
 
+// 커스텀 실행 태스크
 tasks.register<Exec>("runBoot") {
     commandLine("gradlew.bat", "run")
 }
