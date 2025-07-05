@@ -13,6 +13,7 @@ option java_outer_classname = "AccountProto";
 //-----------------------------------
 service GrpcAccountService {
   rpc findAdmin(GrpcAdminRequest) returns (GrpcAdminResponse);
+  rpc findUser(GrpcUserRequest) returns (GrpcUserResponse);
 }
 
 //-----------------------------------
@@ -27,6 +28,14 @@ message GrpcAdminRequest {
   string email = 6;
 }
 
+message GrpcUserRequest {
+  uint64 userSeq = 1;
+  string userId = 2;
+  string userPassword = 3;
+  string userName = 4;
+  string email = 5;
+}
+
 //-----------------------------------
 // response
 //-----------------------------------
@@ -37,4 +46,12 @@ message GrpcAdminResponse {
   string adminName = 4;
   string adminType = 5;
   string email = 6;
+}
+
+message GrpcUserResponse {
+  uint64 userSeq = 1;
+  string userId = 2;
+  string userPassword = 3;
+  string userName = 4;
+  string email = 5;
 }

@@ -4,5 +4,5 @@ import com.service.account.domain.entity.User
 
 interface UserRepositoryDsl {
 
-    fun findInfoByUsername(userId: String): User?
+    fun findUserByName(userId: String): User?
 }
