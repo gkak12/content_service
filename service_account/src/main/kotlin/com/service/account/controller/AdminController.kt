@@ -15,7 +15,7 @@ class AdminController(
 
     private val logger = LoggerFactory.getLogger(AdminController::class.java)
 
-    override fun findAdmin(request: GrpcAdminRequest, responseObserver: StreamObserver<GrpcAdminResponse>) {
+    override fun findAdminByName(request: GrpcAdminRequest, responseObserver: StreamObserver<GrpcAdminResponse>) {
         logger.info("AdminController findAdmin request: $request")
 
         responseObserver.onNext(adminService.findAdminByName(request.adminName))

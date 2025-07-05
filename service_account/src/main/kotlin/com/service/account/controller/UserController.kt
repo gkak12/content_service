@@ -15,7 +15,7 @@ class UserController(
 
     private val logger = LoggerFactory.getLogger(UserController::class.java)
 
-    override fun findUser(request: GrpcUserRequest, responseObserver: StreamObserver<GrpcUserResponse>) {
+    override fun findUserByName(request: GrpcUserRequest, responseObserver: StreamObserver<GrpcUserResponse>) {
         logger.info("UserController findUser request: $request")
 
         responseObserver.onNext(userService.findUserByName(request.userName))

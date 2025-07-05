@@ -12,7 +12,7 @@ option java_outer_classname = "UserProto";
 // service
 //-----------------------------------
 service GrpcUserService {
-  rpc findUser(GrpcUserRequest) returns (GrpcUserResponse);
+  rpc findUserByName(GrpcUserRequest) returns (GrpcUserResponse);
 }
 
 //-----------------------------------
