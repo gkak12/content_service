@@ -1,4 +1,4 @@
-package com.service.common
+package com.service.common.util
 
 import com.querydsl.core.types.dsl.*
 import java.time.LocalDate
