@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class UserRepositoryDslImpl (
     private val jpaQueryFactory: JPAQueryFactory
-) : UserRepositoryDsl {
+): UserRepositoryDsl {
 
     override fun findUserByName(userName: String): User? {
         return jpaQueryFactory

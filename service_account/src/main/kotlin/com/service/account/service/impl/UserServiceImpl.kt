@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 class UserServiceImpl (
     private val userRepository: UserRepository,
     private val userMapper: UserMapper
-) : UserService {
+): UserService {
 
     override fun findUserByName(userName: String): GrpcUserResponse {
         val user = userRepository.findUserByName(userName) ?: throw NullPointerException("$userName is not found")
