@@ -2,7 +2,6 @@ import com.google.protobuf.gradle.*
 
 plugins {
     kotlin("jvm")
-
     id("com.google.protobuf") version "0.9.4"
 }
 
@@ -30,7 +29,6 @@ dependencies {
     // Kotlin & Spring
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 
     // gRPC & Protobuf
     implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
@@ -68,9 +66,6 @@ protobuf {
                 id("grpc")
                 id("grpckt")
             }
-            it.builtins {
-                id("kotlin")
-            }
         }
     }
 }
@@ -86,9 +81,7 @@ sourceSets {
                     "src/main/kotlin",
                     "build/generated/source/proto/main/java",
                     "build/generated/source/proto/main/grpc",
-                    "build/generated/source/proto/main/grpckt",
-                    "build/generated/querydsl",
-                    "build/generated/mapstruct"
+                    "build/generated/source/proto/main/grpckt"
                 )
             )
         }
@@ -96,9 +89,7 @@ sourceSets {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions {
-        jvmTarget = "21"
-    }
+    kotlinOptions.jvmTarget = "21"
 }
 
 tasks.named<Copy>("processResources") {
