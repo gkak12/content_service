@@ -13,10 +13,13 @@ spring:
   sql:
     init:
       mode: never
+  config:
+    import: grpc.yml
 
 jasypt:
   encryptor:
     bean: jasyptEncryptor
 
 server:
+  port: 9081
   shutdown: graceful
