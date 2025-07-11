@@ -1,4 +1,4 @@
-package com.service.admin.domain.entity
+package com.service.account.domain.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

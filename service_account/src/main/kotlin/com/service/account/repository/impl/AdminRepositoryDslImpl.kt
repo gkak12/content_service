@@ -1,9 +1,9 @@
 package com.service.account.repository.impl
 
 import com.querydsl.jpa.impl.JPAQueryFactory
+import com.service.account.domain.entity.Admin
+import com.service.account.domain.entity.QAdmin.admin
 import com.service.account.repository.AdminRepositoryDsl
-import com.service.admin.domain.entity.Admin
-import com.service.admin.domain.entity.QAdmin.admin
 import org.springframework.stereotype.Repository
 
 @Repository

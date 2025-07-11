@@ -1,6 +1,6 @@
 package com.service.account.repository
 
-import com.service.admin.domain.entity.Admin
+import com.service.account.domain.entity.Admin
 
 interface AdminRepositoryDsl {
 

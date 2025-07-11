@@ -2,7 +2,7 @@ package com.service.account.domain.mapper
 
 import com.service.account.GrpcAdminRequest
 import com.service.account.GrpcAdminResponse
-import com.service.admin.domain.entity.Admin
+import com.service.account.domain.entity.Admin
 import org.mapstruct.*
 
 @Mapper(
