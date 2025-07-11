@@ -2,19 +2,17 @@ spring:
   profiles:
     active: ${springProfilesActive:test}  # default test ??
   jpa:
-    database-platform: org.hibernate.community.dialect.SQLiteDialect
+    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: none # update
   datasource:
-    url: jdbc:sqlite:mydb.db
+    url: jdbc:mysql://localhost:3306/service_account
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: ENC(0quG6FVbayjtAMT/26YQxA==)
     password: ENC(cOh6l6GKbZQdo8p9EE98/A==)
   sql:
     init:
       mode: never
-  config:
-    import: grpc.yml
 
 jasypt:
   encryptor:
@@ -23,3 +21,7 @@ jasypt:
 server:
   port: 9081
   shutdown: graceful
+
+grpc:
+  server:
+    port: 10091

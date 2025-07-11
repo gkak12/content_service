@@ -1,7 +1,8 @@
 server:
   shutdown: graceful
+
 spring:
   lifecycle:
     timeout-per-shutdown-phase: 30m
   config:
-    import: classpath:module-grpc.yml
+    import: classpath:module-grpc.yml,app-account.yml
