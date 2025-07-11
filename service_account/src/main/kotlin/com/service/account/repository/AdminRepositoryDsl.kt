@@ -4,5 +4,5 @@ import com.service.account.domain.entity.Admin
 
 interface AdminRepositoryDsl {
 
-    fun findAdminByName(name: String): Admin?
+    fun findAdminByName(name: String): List<Admin>
 }

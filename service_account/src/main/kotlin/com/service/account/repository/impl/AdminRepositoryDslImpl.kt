@@ -11,11 +11,11 @@ class AdminRepositoryDslImpl (
     private val jpaQueryFactory: JPAQueryFactory
 ): AdminRepositoryDsl {
 
-    override fun findAdminByName(name: String): Admin? {
+    override fun findAdminByName(name: String): List<Admin> {
         return jpaQueryFactory
             .select(admin)
             .from(admin)
             .where(admin.adminName.like("%"+name+"%"))
-            .fetchOne()
+            .fetch()
     }
 }
