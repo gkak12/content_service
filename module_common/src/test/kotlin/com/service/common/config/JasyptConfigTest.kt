@@ -1,4 +1,4 @@
-package com.service.account.config
+package com.service.common.config
 
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor
 import org.junit.jupiter.api.Test
@@ -48,8 +48,8 @@ class JasyptConfigTest {
 
     @Test
     fun `jasypt 디코딩 테스트`(){
-        val username = "ENC(0quG6FVbayjtAMT/26YQxA==)"
-        val password = "ENC(cOh6l6GKbZQdo8p9EE98/A==)"
+        val username = "ENC(HUY2ef5kLF+Fv1k/DCDjKg==)"
+        val password = "ENC(le1IKe0G4nYTbSONleow1g==)"
 
         log.info("username: {}", jasyptDecoding(username))
         log.info("password: {}", jasyptDecoding(password))
