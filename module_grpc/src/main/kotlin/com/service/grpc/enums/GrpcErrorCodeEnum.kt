@@ -1,4 +1,4 @@
-package com.service.grpc.exception
+package com.service.grpc.enums
 
 import io.grpc.Status
 

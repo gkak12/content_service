@@ -1,5 +1,6 @@
 package com.service.account.controller
 
+import com.service.account.GrpcAdminProtoDto
 import com.service.account.GrpcAdminRequest
 import com.service.account.GrpcAdminResponse
 import com.service.account.GrpcAdminServiceGrpc
@@ -15,10 +16,17 @@ class AdminController(
 
     private val logger = LoggerFactory.getLogger(AdminController::class.java)
 
+    override fun login(protoDto: GrpcAdminProtoDto, responseObserver: StreamObserver<GrpcAdminResponse>) {
+        logger.info("AdminController login protoDto: ${protoDto.adminId}")
+
+        responseObserver.onNext(adminService.login(protoDto))
+        responseObserver.onCompleted()
+    }
+
     override fun findAdminByName(request: GrpcAdminRequest, responseObserver: StreamObserver<GrpcAdminResponse>) {
         logger.info("AdminController findAdminByName request: $request")
 
-        responseObserver.onNext(adminService.findAdminByName(request.adminName))
+        responseObserver.onNext(adminService.findAdminByName(request))
         responseObserver.onCompleted()
     }
 }

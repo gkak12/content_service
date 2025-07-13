@@ -1,5 +1,6 @@
 package com.service.grpc.exception
 
+import com.service.grpc.enums.GrpcErrorCodeEnum
 import io.grpc.Metadata
 import io.grpc.Status
 import io.grpc.StatusRuntimeException

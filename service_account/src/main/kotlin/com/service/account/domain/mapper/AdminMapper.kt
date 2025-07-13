@@ -1,6 +1,6 @@
 package com.service.account.domain.mapper
 
-import com.service.account.GrpcAdminDto
+import com.service.account.GrpcAdminProtoDto
 import com.service.account.GrpcAdminRequest
 import com.service.account.domain.entity.Admin
 import org.mapstruct.*
@@ -15,5 +15,5 @@ import org.mapstruct.*
 interface AdminMapper {
 
     fun toEntity(request: GrpcAdminRequest): Admin
-    fun toProtoDto(admin: Admin): GrpcAdminDto
+    fun toProtoDto(admin: Admin): GrpcAdminProtoDto
 }
