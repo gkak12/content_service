@@ -7,5 +7,6 @@ import com.service.account.GrpcAdminResponse
 interface AdminService {
 
     fun login(protoDto: GrpcAdminProtoDto): GrpcAdminResponse
+    fun signup(protoDto: GrpcAdminProtoDto) : GrpcAdminResponse
     fun findAdminByName(userName: GrpcAdminRequest): GrpcAdminResponse
 }

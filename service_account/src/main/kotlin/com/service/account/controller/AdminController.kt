@@ -23,6 +23,13 @@ class AdminController(
         responseObserver.onCompleted()
     }
 
+    override fun signup(protoDto: GrpcAdminProtoDto, responseObserver: StreamObserver<GrpcAdminResponse>) {
+        logger.info("AdminController signup protoDto: ${protoDto.adminId}")
+
+        responseObserver.onNext(adminService.signup(protoDto))
+        responseObserver.onCompleted()
+    }
+
     override fun findAdminByName(request: GrpcAdminRequest, responseObserver: StreamObserver<GrpcAdminResponse>) {
         logger.info("AdminController findAdminByName request: $request")
 

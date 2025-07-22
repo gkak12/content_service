@@ -11,7 +11,7 @@ class AdminRepositoryDslImpl (
     private val jpaQueryFactory: JPAQueryFactory
 ): AdminRepositoryDsl {
 
-    override fun login(id: String): Admin? {
+    override fun findAdminById(id: String): Admin? {
         return jpaQueryFactory
             .select(admin)
             .from(admin)
