@@ -33,6 +33,11 @@ class AdminServiceImpl(
         return GrpcAdminResponse.newBuilder()
             .setStatusCode(StatusEnum.OK.value)
             .setMessage("${protoDto.adminId} is logged in as ${admin.adminName}.")
+            .addDto(GrpcAdminProtoDto.newBuilder()
+                .setAdminId(admin.adminId)
+                .setAdminType(admin.adminType)
+                .build()
+            )
             .build()
     }
 
