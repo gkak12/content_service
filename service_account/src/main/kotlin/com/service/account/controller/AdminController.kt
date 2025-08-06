@@ -36,4 +36,25 @@ class AdminController(
         responseObserver.onNext(adminService.findAdminByName(request))
         responseObserver.onCompleted()
     }
+
+    override fun update(protoDto: GrpcAdminProtoDto, responseObserver: StreamObserver<GrpcAdminResponse>) {
+        logger.info("AdminController update protoDto: ${protoDto.adminId}")
+
+        responseObserver.onNext(adminService.update(protoDto))
+        responseObserver.onCompleted()
+    }
+
+    override fun delete(protoDto: GrpcAdminProtoDto, responseObserver: StreamObserver<GrpcAdminResponse>) {
+        logger.info("AdminController delete protoDto: ${protoDto.adminId}")
+
+        responseObserver.onNext(adminService.delete(protoDto))
+        responseObserver.onCompleted()
+    }
+
+    override fun resetPassword(protoDto: GrpcAdminProtoDto, responseObserver: StreamObserver<GrpcAdminResponse>) {
+        logger.info("AdminController resetPassword protoDto: ${protoDto.adminId}")
+
+        responseObserver.onNext(adminService.resetPassword(protoDto))
+        responseObserver.onCompleted()
+    }
 }

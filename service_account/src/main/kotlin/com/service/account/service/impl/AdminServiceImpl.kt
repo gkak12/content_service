@@ -75,4 +75,44 @@ class AdminServiceImpl(
             .addAllDto(list)
             .build()
     }
+
+    override fun update(protoDto: GrpcAdminProtoDto): GrpcAdminResponse {
+        val admin = adminRepository.findAdminById(protoDto.adminId)
+            ?: throw NullPointerException("${protoDto.adminId} is not found.")
+
+        admin.adminName = protoDto.adminName
+        admin.email = protoDto.email
+
+        adminRepository.save(admin)
+
+        return GrpcAdminResponse.newBuilder()
+            .setStatusCode(StatusEnum.OK.value)
+            .setMessage("${protoDto.adminId} is updated.")
+            .build()
+    }
+
+    override fun delete(protoDto: GrpcAdminProtoDto): GrpcAdminResponse {
+        val admin = adminRepository.findAdminById(protoDto.adminId)
+            ?: throw NullPointerException("${protoDto.adminId} is not found.")
+
+        adminRepository.delete(admin)
+
+        return GrpcAdminResponse.newBuilder()
+            .setStatusCode(StatusEnum.OK.value)
+            .setMessage("${protoDto.adminId} is deleted.")
+            .build()
+    }
+
+    override fun resetPassword(protoDto: GrpcAdminProtoDto): GrpcAdminResponse {
+        val admin = adminRepository.findAdminById(protoDto.adminId)
+            ?: throw NullPointerException("${protoDto.adminId} is not found.")
+
+        admin.adminPassword = passwordEncoder.encode(protoDto.adminPassword)
+        adminRepository.save(admin)
+
+        return GrpcAdminResponse.newBuilder()
+            .setStatusCode(StatusEnum.OK.value)
+            .setMessage("${protoDto.adminId} password is updated.")
+            .build()
+    }
 }
