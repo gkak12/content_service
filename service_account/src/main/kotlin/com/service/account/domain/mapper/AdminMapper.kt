@@ -15,5 +15,7 @@ import org.mapstruct.*
 interface AdminMapper {
 
     fun toEntity(request: GrpcAdminRequest): Admin
+
+    @Mapping(source = "adminPassword", target = "adminPassword", ignore = true)
     fun toProtoDto(admin: Admin): GrpcAdminProtoDto
 }
