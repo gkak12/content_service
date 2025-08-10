@@ -11,11 +11,19 @@ class UserRepositoryDslImpl (
     private val jpaQueryFactory: JPAQueryFactory
 ): UserRepositoryDsl {
 
-    override fun findUserByName(userName: String): User? {
+    override fun findUserById(userId: String): User? {
+        return jpaQueryFactory
+            .select(user)
+            .from(user)
+            .where(user.userId.eq(userId))
+            .fetchOne()
+    }
+
+    override fun findUserByName(userName: String): List<User> {
         return jpaQueryFactory
             .select(user)
             .from(user)
             .where(user.userName.like("%"+userName+"%"))
-            .fetchOne()
+            .fetch()
     }
 }

@@ -1,8 +1,12 @@
 package com.service.account.service
 
+import com.service.account.GrpcUserProtoDto
+import com.service.account.GrpcUserRequest
 import com.service.account.GrpcUserResponse
 
 interface UserService {
 
-    fun findUserByName(userName: String): GrpcUserResponse
+    fun findUserById(request: GrpcUserRequest): GrpcUserResponse
+    fun findUserByName(request: GrpcUserRequest): GrpcUserResponse
+    fun createUser(protoDto: GrpcUserProtoDto): GrpcUserResponse
 }

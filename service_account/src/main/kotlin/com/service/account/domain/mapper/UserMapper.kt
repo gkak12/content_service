@@ -1,7 +1,6 @@
 package com.service.account.domain.mapper
 
-import com.service.account.GrpcUserRequest
-import com.service.account.GrpcUserResponse
+import com.service.account.GrpcUserProtoDto
 import com.service.account.domain.entity.User
 import org.mapstruct.*
 
@@ -14,6 +13,8 @@ import org.mapstruct.*
 )
 interface UserMapper {
 
-    fun toEntity(grpcUserRequest : GrpcUserRequest) : User
-    fun toProtoDto(user : User) : GrpcUserResponse
+    fun toEntity(ProtoDto: GrpcUserProtoDto) : User
+
+    @Mapping(source = "userPassword", target = "userPassword", ignore = true)
+    fun toProtoDto(user: User) : GrpcUserProtoDto
 }
