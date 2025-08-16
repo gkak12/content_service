@@ -39,12 +39,13 @@ class UserServiceImpl (
     }
 
     override fun loginUser(protoDto: GrpcUserProtoDto): GrpcUserResponse {
-        userRepository.findUserById(protoDto.userId)
-            ?: userRepository.save(userMapper.toEntity(protoDto))
+        val user = userRepository.findUserById(protoDto.userId) ?: userRepository.save(userMapper.toEntity(protoDto))
+        val userDto = userMapper.toProtoDto(user)
 
         return GrpcUserResponse.newBuilder()
             .setStatusCode(StatusEnum.OK.value)
             .setMessage("${protoDto.userId} is logined.")
+            .addDto(userDto)
             .build()
     }
 }
