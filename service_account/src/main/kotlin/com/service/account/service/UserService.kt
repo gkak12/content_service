@@ -8,5 +8,5 @@ interface UserService {
 
     fun findUserById(request: GrpcUserRequest): GrpcUserResponse
     fun findUserByName(request: GrpcUserRequest): GrpcUserResponse
-    fun createUser(protoDto: GrpcUserProtoDto): GrpcUserResponse
+    fun loginUser(protoDto: GrpcUserProtoDto): GrpcUserResponse
 }

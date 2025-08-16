@@ -29,10 +29,10 @@ class UserController(
         responseObserver.onCompleted()
     }
 
-    override fun createUser(protoDto: GrpcUserProtoDto, responseObserver: StreamObserver<GrpcUserResponse>) {
-        logger.info("UserController createUser protoDto: $protoDto")
+    override fun loginUser(protoDto: GrpcUserProtoDto, responseObserver: StreamObserver<GrpcUserResponse>) {
+        logger.info("UserController loginUser protoDto: $protoDto")
 
-        responseObserver.onNext(userService.createUser(protoDto))
+        responseObserver.onNext(userService.loginUser(protoDto))
         responseObserver.onCompleted()
     }
 }
