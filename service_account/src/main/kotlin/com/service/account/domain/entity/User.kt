@@ -22,9 +22,15 @@ class User (
     @Column(name = "USER_PASSWORD")
     var userPassword: String = "",
 
+    @Column(name = "USER_LOGIN_TYPE")
+    var userLoginType: String = "",
+
     @Column(name = "USER_NAME")
     var userName: String = "",
 
-    @Column(name = "EMAIL")
-    var email: String = ""
+    @Column(name = "USER_EMAIL")
+    var userEmail: String = "",
+
+    @Column(name = "USER_ADDRESS")
+    var userAddress: String = ""
 )
