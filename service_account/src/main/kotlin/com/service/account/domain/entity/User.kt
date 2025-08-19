@@ -22,8 +22,8 @@ class User (
     @Column(name = "USER_PASSWORD")
     var userPassword: String = "",
 
-    @Column(name = "USER_LOGIN_TYPE")
-    var userLoginType: String = "",
+    @Column(name = "USER_TYPE")
+    var userType: String = "",
 
     @Column(name = "USER_NAME")
     var userName: String = "",
