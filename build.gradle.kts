@@ -126,6 +126,12 @@ project(":service_account") {
     }
 }
 
+project(":service_point") {
+    dependencies {
+        compileOnly(project(":module_common"))
+    }
+}
+
 // 루트에서 bootJar 비활성화
 tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
     enabled = false
