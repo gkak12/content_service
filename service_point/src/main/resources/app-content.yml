@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: ${springProfilesActive:test}  # default test ??
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: none # update
+  datasource:
+    url: jdbc:mysql://localhost:3306/service_point
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ENC(yyw4tsih/QZw8JoJHvtH6A==)
+    password: ENC(JgJQCiirFony057Z6LRKpBt2Sl0+2tEL)
+  sql:
+    init:
+      mode: never
+
+jasypt:
+  encryptor:
+    bean: jasyptEncryptor
+
+server:
+  port: 9083
+  shutdown: graceful
+
+grpc:
+  server:
+    port: 10093
