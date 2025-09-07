@@ -4,7 +4,7 @@ import jakarta.persistence.*
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "entity")
+@Table(name = "POINT")
 class Point (
 
     @Id
