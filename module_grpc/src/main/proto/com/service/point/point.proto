@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 import "google/protobuf/empty.proto";
+import "com/service/common/pagination.proto";
 
 package account;
 
@@ -42,6 +43,8 @@ message GrpcPointRequest {
   string content = 6;
   string creationDateTime = 7;
   string expirationDateTime = 8;
+
+  optional common.PaginationRequest paginationRequest = 9;  // 페이징 요청 정보
 }
 
 //-----------------------------------
@@ -51,4 +54,6 @@ message GrpcPointResponse {
   string statusCode = 1;
   string message = 2;
   repeated GrpcPointProtoDto dto = 3;
+
+  optional common.PaginationResponse paginationResponset = 4; // 페이징 응답 정보
 }
